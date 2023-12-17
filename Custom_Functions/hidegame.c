@@ -247,7 +247,7 @@ void hide_game()
 				Hmap[Hk * Hwide + Hj] = HT[0] / 4 * 16 + 154;
 			}
 		}
-		if (!(Hnum % 3))
+		if (!(Hnum % 2))
 		{
 			while (Hi < Hsize)
 			{
