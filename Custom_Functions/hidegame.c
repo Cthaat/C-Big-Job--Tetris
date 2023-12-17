@@ -105,13 +105,21 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj, int *H
 		// 如果没有失败，生成新的
 		if (*Hy)
 		{
+			//清空提示栏
 			HNext(1)
 			{
 				Hnext[Hnk * 4 + Hnj] = 0;
 			}
+			HGet(1)
+			{
+				Hmap[Hnk * 4 + Hnj] = 1;
+			}
+			//生成下一个
 			HT[0] = HT[1];
 			HT[1] = rand() % 20;
+			//难度
 			Hnum++;
+			//重置坐标
 			*Hx = 0;
 			*Hy = 0;
 			Hi = Hsize - 1;
