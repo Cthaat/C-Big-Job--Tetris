@@ -8,7 +8,6 @@
 #define HGet(HC) for (HC, Hi = Hn[HT[0]]; Hj = Hx + Hi % 4, Hk = Hy + Hi / 4 % 4, Hi; Hi >>= 4)
 #define HNext(HC) for (HC, Hi = Hn[HT[1]]; Hnj = Hi % 4, Hnk = Hi / 4 % 4, Hi; Hi >>= 4)
 
-
 // 每种方块的类型
 // 使用一个数字储存
 // 转化为二进制使用
@@ -47,7 +46,7 @@ int Hc = -1;
 int *Hmap = NULL;
 // 地图大小
 int Hheight = 25;
-int Hwide = 15;
+int Hwide = 12;
 int Hsize = 0;
 // 坐标
 int Hx = 0;
@@ -97,7 +96,7 @@ void hide_move(int *Hv, int Hl)
 	}
 }
 
-void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj, int *Hk)
+void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *Hk1)
 {
 	int Hcount = 0;
 	if (*Hc == -1)
@@ -105,35 +104,37 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj, int *H
 		// 如果没有失败，生成新的
 		if (*Hy)
 		{
-			//清空提示栏
+			// 清空提示栏
 			HNext(1)
 			{
 				Hnext[Hnk * 4 + Hnj] = 0;
 			}
-			HGet(1)
-			{
-				Hmap[Hnk * 4 + Hnj] = 1;
-			}
-			//生成下一个
+			// 生成下一个
 			HT[0] = HT[1];
 			HT[1] = rand() % 20;
-			//难度
+			// 难度
 			Hnum++;
-			//重置坐标
+			// 重置坐标
 			*Hx = 0;
 			*Hy = 0;
-			Hi = Hsize - 1;
+			Hi = 0;
+			while (Hi < Hsize)
+			{
+
+				Hmap[Hi] = Hmap[Hi] ? 1 : 0;
+				Hi++;
+			}
 			while (Hi)
 			{
-				for (*Hj = Hwide; Hi;)
+				for (*Hj1 = Hwide; Hi;)
 				{
-					*Hj -= !!Hmap[Hi];
+					*Hj1 -= !!Hmap[Hi];
 					if ((Hi-- % Hwide) == 0)
 					{
 						break;
 					}
 				}
-				if (!*Hj)
+				if (!*Hj1)
 				{
 					Hi += Hwide;
 					int Hp = Hi;
@@ -143,11 +144,17 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj, int *H
 						Hmap[Hp] = Hmap[Hp - Hwide];
 						Hp--;
 					}
+					Hi = 0;
+					while (Hi < Hsize)
+					{
+						Hmap[Hi] = Hmap[Hi] ? 156 : 0;
+						Hi++;
+					}
 					Hmarks += (Hwide * ++Hcount);
 				}
 			}
-			*Hk = 0;
-			*Hj = 0;
+			*Hk1 = 0;
+			*Hj1 = 0;
 		}
 		// 如果y=0代表游戏失败
 		else if (!*Hy)
@@ -238,6 +245,14 @@ void hide_game()
 			HGet(Hd = 15 - Hflag)
 			{
 				Hmap[Hk * Hwide + Hj] = HT[0] / 4 * 16 + 154;
+			}
+		}
+		if (!(Hnum % 3))
+		{
+			while (Hi < Hsize)
+			{
+				Hmap[Hi] = Hmap[Hi] ? 156 : 0;
+				Hi++;
 			}
 		}
 		// 提高难度
