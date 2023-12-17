@@ -7,8 +7,19 @@
 #include "operation.h"
 #include "hidegame.h"
 
+// 定义隐藏光标函数
+void HideCursorm()
+{
+    CONSOLE_CURSOR_INFO cursor;
+    cursor.bVisible = FALSE;
+    cursor.dwSize = sizeof(cursor);
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorInfo(handle, &cursor);
+}
+
 int main()
 {
+    HideCursorm();
     // 设置背景颜色
     while (1)
     {
@@ -22,20 +33,18 @@ int main()
             system("cls");
             printf("Please select the mode");
             int mode = 0;
+            HideCursorm();
             moden();
             scanf_s("%d", &mode);
-            CONSOLE_CURSOR_INFO a = {1, 0};
-            SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &a);
+            HideCursorm();
             switch (mode)
             {
             case 1:
-                CONSOLE_CURSOR_INFO a = {1, 0};
-                SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &a);
+                HideCursorm();
                 point_game();
                 break;
             case 2:
-                CONSOLE_CURSOR_INFO a1 = {1, 0};
-                SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &a1);
+                HideCursorm();
                 hide_game();
                 break;
             default:

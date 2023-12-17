@@ -63,6 +63,16 @@ int *Himply = NULL;
 // 下一个元素
 int *Hnext = NULL;
 
+//定义隐藏光标函数
+void HideCursor()
+{
+	CONSOLE_CURSOR_INFO cursor;    
+	cursor.bVisible = FALSE;    
+	cursor.dwSize = sizeof(cursor);    
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);    
+	SetConsoleCursorInfo(handle, &cursor);
+}
+
 void hide_move(int *Hv, int Hl)
 {
 	// 用Get取出四个位置坐标，并判断合法性
@@ -120,7 +130,6 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 			Hi = 0;
 			while (Hi < Hsize)
 			{
-
 				Hmap[Hi] = Hmap[Hi] ? 1 : 0;
 				Hi++;
 			}
@@ -159,6 +168,24 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 		// 如果y=0代表游戏失败
 		else if (!*Hy)
 		{
+			FILE *pfile;
+			pfile = fopen("./highscore.txt", "r");
+			if (pfile == NULL)
+			{
+				pfile = fopen("./highscore.txt", "w");
+				fprintf(pfile, "0");
+				fclose(pfile);
+			}
+			int Hhighest = 0;
+			fscanf(pfile, "%d", &Hhighest);
+			fclose(pfile);
+			if (Hmarks > Hhighest)
+			{
+				FILE *pfile;
+				pfile = fopen("./highscore.txt", "w");
+				fprintf(pfile, "%d", Hmarks);
+				fclose(pfile);
+			}
 			*Hc = 27;
 			return;
 		}
@@ -167,6 +194,17 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 
 void hide_game()
 {
+	FILE *pfile;
+	pfile = fopen("./highscore.txt", "r");
+	if (pfile == NULL)
+	{
+		pfile = fopen("./highscore.txt", "w");
+		fprintf(pfile, "0");
+		fclose(pfile);
+	}
+	int Hhighest = 0;
+	fscanf(pfile, "%d", &Hhighest);
+	fclose(pfile);
 	Hc = 1;
 	// 初始化
 	// 设置随机数起点
@@ -179,8 +217,7 @@ void hide_game()
 	// 刷新率
 	for (system("cls"); Hc - 27; Sleep(30))
 	{
-		CONSOLE_CURSOR_INFO Ha = {1, 0};
-		SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Ha);
+		HideCursor();
 		// 获取是否有操作
 		// 转换大小写
 		HGet(Hc = _kbhit() ? _getch() & 95 : 1)
@@ -316,5 +353,10 @@ void hide_game()
 				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), He);
 			}
 		}
+		// 打印最高分
+		COORD Hf = {30, 16};
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Hf);
+		printf("high: %d", Hhighest);
 	}
 }
