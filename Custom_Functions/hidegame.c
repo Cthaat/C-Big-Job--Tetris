@@ -186,6 +186,7 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 				fprintf(pfile, "%d", Hmarks);
 				fclose(pfile);
 			}
+			Hmarks = 0;
 			*Hc = 27;
 			return;
 		}
