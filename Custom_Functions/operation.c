@@ -8,7 +8,6 @@
 #define Get(C) for (C, i = n[T[0]]; j = x + i % 4, k = y + i / 4 % 4, i; i >>= 4)
 #define Next(C) for (C, i = n[T[1]]; nj = i % 4, nk = i / 4 % 4, i; i >>= 4)
 
-
 // 每种方块的类型
 // 使用一个数字储存
 // 转化为二进制使用
@@ -64,6 +63,16 @@ int *imply = NULL;
 // 下一个元素
 int *next = NULL;
 
+// 定义隐藏光标函数
+void OHideCursor()
+{
+	CONSOLE_CURSOR_INFO cursor;
+	cursor.bVisible = FALSE;
+	cursor.dwSize = sizeof(cursor);
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorInfo(handle, &cursor);
+}
+
 void move(int *v, int l)
 {
 	// 用Get取出四个位置坐标，并判断合法性
@@ -97,7 +106,7 @@ void move(int *v, int l)
 	}
 }
 
-void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k)
+void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int highest)
 {
 	int count = 0;
 	if (*c == -1)
@@ -144,6 +153,22 @@ void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k)
 		// 如果y=0代表游戏失败
 		else if (!*y)
 		{
+			// 失败后，将分数写入文件
+			if (marks > highest)
+			{
+				FILE *pfile;
+				pfile = fopen("./phighscore.txt", "w");
+				fprintf(pfile, "%d", marks);
+				fclose(pfile);
+			}
+			else
+			{
+				FILE *pfile;
+				pfile = fopen("./phighscore.txt", "w");
+				fprintf(pfile, "%d", highest);
+				fclose(pfile);
+			}
+			marks = 0;
 			*c = 27;
 			return;
 		}
@@ -152,6 +177,17 @@ void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k)
 
 void point_game()
 {
+	FILE *pfile;
+	pfile = fopen("./phighscore.txt", "r");
+	if (pfile == NULL)
+	{
+		pfile = fopen("./phighscore.txt", "w");
+		fprintf(pfile, "0");
+		fclose(pfile);
+	}
+	int highest = 0;
+	fscanf(pfile, "%d", &highest);
+	fclose(pfile);
 	c = 1;
 	// 初始化
 	// 设置随机数起点
@@ -164,8 +200,7 @@ void point_game()
 	// 刷新率
 	for (system("cls"); c - 27; Sleep(30))
 	{
-		CONSOLE_CURSOR_INFO a = {1, 0};
-		SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &a);
+		OHideCursor();
 		// 获取是否有操作
 		// 转换大小写
 		Get(c = _kbhit() ? _getch() & 95 : 1)
@@ -243,7 +278,7 @@ void point_game()
 		}
 		// 检查是否可以消除
 		// 并且当上一个块落下去后才可以进行检查
-		check(map, &c, &x, &y, T, &j, &k);
+		check(map, &c, &x, &y, T, &j, &k, highest);
 		// 注意这里是两个空格,不然比例不对
 		// 设置光标位置准备打印
 		// 同时隐藏光标
@@ -293,6 +328,9 @@ void point_game()
 				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), e);
 			}
 		}
+		COORD f = {30, 16};
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), f);
+		printf("high: %d", highest);
 	}
 }
-
