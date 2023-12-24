@@ -47,6 +47,9 @@ int main()
                 HideCursorm();
                 hide_game();
                 break;
+            case 3:
+                TwoPlayersMode();
+                break;
             default:
                 break;
             }
