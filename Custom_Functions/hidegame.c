@@ -8,6 +8,13 @@
 #define HGet(HC) for (HC, Hi = Hn[HT[0]]; Hj = Hx + Hi % 4, Hk = Hy + Hi / 4 % 4, Hi; Hi >>= 4)
 #define HNext(HC) for (HC, Hi = Hn[HT[1]]; Hnj = Hi % 4, Hnk = Hi / 4 % 4, Hi; Hi >>= 4)
 
+struct HighestMakrs
+{
+	char* Highestname;
+	int HighestMakrs;
+};
+
+
 // 每种方块的类型
 // 使用一个数字储存
 // 转化为二进制使用
@@ -195,17 +202,24 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 
 void hide_game()
 {
+	struct HighestMakrs HmarksInformation;
+	HmarksInformation.HighestMakrs = 0;
+	HmarksInformation.Highestname = "NoBody";
 	FILE *pfile;
 	pfile = fopen("./highscore.txt", "r");
 	if (pfile == NULL)
 	{
 		pfile = fopen("./highscore.txt", "w");
-		fprintf(pfile, "0");
+		fprintf(pfile, "%d %s" , HmarksInformation.HighestMakrs, HmarksInformation.Highestname);
 		fclose(pfile);
 	}
 	int Hhighest = 0;
-	fscanf(pfile, "%d", &Hhighest);
+	char * Hhighestnam;
+	fscanf(pfile, "%d %s", &Hhighest , &Hhighestnam);
 	fclose(pfile);
+	struct HighestMakrs HmarksInformations;
+	HmarksInformations.HighestMakrs = Hhighest;
+	HmarksInformations.Highestname = Hhighestnam;
 	Hc = 1;
 	// 初始化
 	// 设置随机数起点
