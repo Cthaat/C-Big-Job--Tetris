@@ -4,31 +4,31 @@
 void welcome()
 {
 	system("cls");
-	printf("*****************************************************************************\n");
-	printf("*                          Welcome to play Tetris!                          *\n");
-	printf("*                             operating method                              *\n");
-	printf("*                    W : turn  A : left  S : speeder  D : right             *\n");
-	printf("*                                                                           *\n");
-	printf("*                    1.PLAY                             0.exit              *\n");
-	printf("*                                                                           *\n");
-	printf("*                             Have a good game.                             *\n");
-	printf("*                                                                           *\n");
-	printf("*                                                                           *\n");
-	printf("*****************************************************************************\n");
+	printf("  \t*****************************************************************************\n");
+	printf("  \t*                          Welcome to play Tetris!                          *\n");
+	printf("  \t*                             operating method                              *\n");
+	printf("  \t*                    W : turn  A : left  S : speeder  D : right             *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*                    1.PLAY                             0.exit              *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*                             Have a good game.                             *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*****************************************************************************\n");
 }
 
 void moden()
 {
 	system("cls");
-	printf("*****************************************************************************\n");
-	printf("*                          Welcome to play Tetris!                          *\n");
-	printf("*                             GAME   MODERN                                 *\n");
-	printf("*                            1 . point system                               *\n");
-	printf("*                            2 . hide  system                               *\n");
-	printf("*                                                                           *\n");
-	printf("*                                                                           *\n");
-	printf("*                         0 . Back to previous page                         *\n");
-	printf("*                            Have a good game.                              *\n");
-	printf("*                                                                           *\n");
-	printf("*****************************************************************************\n");
+	printf("  \t*****************************************************************************\n");
+	printf("  \t*                          Welcome to play Tetris!                          *\n");
+	printf("  \t*                             GAME   MODERN                                 *\n");
+	printf("  \t*                            1 . point system                               *\n");
+	printf("  \t*                            2 . hide  system                               *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*                         0 . Back to previous page                         *\n");
+	printf("  \t*                            Have a good game.                              *\n");
+	printf("  \t*                                                                           *\n");
+	printf("  \t*****************************************************************************\n");
 }
