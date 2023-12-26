@@ -8,6 +8,12 @@
 #define Get(C) for (C, i = n[T[0]]; j = x + i % 4, k = y + i / 4 % 4, i; i >>= 4)
 #define Next(C) for (C, i = n[T[1]]; nj = i % 4, nk = i / 4 % 4, i; i >>= 4)
 
+struct HighestMakrsp
+{
+	char* Highestnamep;
+	int HighestMakrsp;
+};
+
 // 每种方块的类型
 // 使用一个数字储存
 // 转化为二进制使用
@@ -106,7 +112,7 @@ void move(int *v, int l)
 	}
 }
 
-void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int highest)
+void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int Hhighestp , char*Hhighestnamp)
 {
 	int count = 0;
 	if (*c == -1)
@@ -154,18 +160,15 @@ void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int highe
 		else if (!*y)
 		{
 			// 失败后，将分数写入文件
-			if (marks > highest)
+			if (marks >= Hhighestp)
 			{
+				system("cls");
+				char NewNamep[20];
+				printf("您是新的最高分，请输入您的名字：\n");
+				scanf("%s", &NewNamep);
 				FILE *pfile;
-				pfile = fopen("./phighscore.txt", "w");
-				fprintf(pfile, "%d", marks);
-				fclose(pfile);
-			}
-			else
-			{
-				FILE *pfile;
-				pfile = fopen("./phighscore.txt", "w");
-				fprintf(pfile, "%d", highest);
+				pfile = fopen("./highscore.txt", "w");
+				fprintf(pfile, "%d %s", marks , NewNamep);
 				fclose(pfile);
 			}
 			marks = 0;
@@ -177,17 +180,24 @@ void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int highe
 
 void point_game()
 {
+	struct HighestMakrsp HmarksInformationp;
+	HmarksInformationp.HighestMakrsp = 0;
+	HmarksInformationp.Highestnamep = "NoBody";
 	FILE *pfile;
 	pfile = fopen("./phighscore.txt", "r");
 	if (pfile == NULL)
 	{
 		pfile = fopen("./phighscore.txt", "w");
-		fprintf(pfile, "0");
+		fprintf(pfile, "%d %s" , HmarksInformationp.HighestMakrsp, HmarksInformationp.Highestnamep);
 		fclose(pfile);
 	}
-	int highest = 0;
-	fscanf(pfile, "%d", &highest);
+	int Hhighestp = 0;
+	char Hhighestnamp[20];
+	fscanf(pfile, "%d %s", &Hhighestp , &Hhighestnamp);
 	fclose(pfile);
+	struct HighestMakrsp HmarksInformationsp;
+	HmarksInformationsp.HighestMakrsp = Hhighestp;
+	HmarksInformationsp.Highestnamep = Hhighestnamp;
 	c = 1;
 	// 初始化
 	// 设置随机数起点
@@ -278,7 +288,7 @@ void point_game()
 		}
 		// 检查是否可以消除
 		// 并且当上一个块落下去后才可以进行检查
-		check(map, &c, &x, &y, T, &j, &k, highest);
+		check(map, &c, &x, &y, T, &j, &k, Hhighestp , Hhighestnamp);
 		// 注意这里是两个空格,不然比例不对
 		// 设置光标位置准备打印
 		// 同时隐藏光标
@@ -328,9 +338,13 @@ void point_game()
 				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), e);
 			}
 		}
-		COORD f = {30, 16};
+		COORD f = {30, 17};
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), f);
-		printf("high: %d", highest);
+		printf("high: %d", Hhighestp);
+		COORD m = {30, 16};
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m);
+		printf("highname: %s", Hhighestnamp);
 	}
 }

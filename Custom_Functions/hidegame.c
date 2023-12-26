@@ -179,6 +179,7 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 			{
 				system("cls");
 				char NewName[20];
+				printf("您是新的最高分，请输入您的名字：\n");
 				scanf("%s", &NewName);
 				FILE *pfile;
 				pfile = fopen("./highscore.txt", "w");
