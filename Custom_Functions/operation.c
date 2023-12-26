@@ -167,7 +167,7 @@ void check(int *map, int *c, int *x, int *y, int T[2], int *j, int *k, int Hhigh
 				printf("您是新的最高分，请输入您的名字：\n");
 				scanf("%s", &NewNamep);
 				FILE *pfile;
-				pfile = fopen("./highscore.txt", "w");
+				pfile = fopen("./phighscore.txt", "w");
 				fprintf(pfile, "%d %s", marks , NewNamep);
 				fclose(pfile);
 			}
