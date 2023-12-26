@@ -48,7 +48,7 @@ int main()
                 hide_game();
                 break;
             case 3:
-                TwoPlayersMode();
+                // TwoPlayersMode();
                 break;
             default:
                 break;
