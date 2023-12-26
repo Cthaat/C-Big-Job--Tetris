@@ -113,7 +113,7 @@ void hide_move(int *Hv, int Hl)
 	}
 }
 
-void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *Hk1)
+void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *Hk1 , int Hhighest ,char * Hhighestnam)
 {
 	int Hcount = 0;
 	if (*Hc == -1)
@@ -175,22 +175,14 @@ void hide_check(int *Hmap, int *Hc, int *Hx, int *Hy, int HT[2], int *Hj1, int *
 		// 如果y=0代表游戏失败
 		else if (!*Hy)
 		{
-			FILE *pfile;
-			pfile = fopen("./highscore.txt", "r");
-			if (pfile == NULL)
+			if (Hmarks >= Hhighest)
 			{
-				pfile = fopen("./highscore.txt", "w");
-				fprintf(pfile, "0");
-				fclose(pfile);
-			}
-			int Hhighest = 0;
-			fscanf(pfile, "%d", &Hhighest);
-			fclose(pfile);
-			if (Hmarks > Hhighest)
-			{
+				system("cls");
+				char NewName[20];
+				scanf("%s", &NewName);
 				FILE *pfile;
 				pfile = fopen("./highscore.txt", "w");
-				fprintf(pfile, "%d", Hmarks);
+				fprintf(pfile, "%d %s", Hmarks , NewName);
 				fclose(pfile);
 			}
 			Hmarks = 0;
@@ -214,7 +206,7 @@ void hide_game()
 		fclose(pfile);
 	}
 	int Hhighest = 0;
-	char * Hhighestnam;
+	char Hhighestnam[20];
 	fscanf(pfile, "%d %s", &Hhighest , &Hhighestnam);
 	fclose(pfile);
 	struct HighestMakrs HmarksInformations;
@@ -318,7 +310,7 @@ void hide_game()
 		}
 		// 检查是否可以消除
 		// 并且当上一个块落下去后才可以进行检查
-		hide_check(Hmap, &Hc, &Hx, &Hy, HT, &Hj, &Hk);
+		hide_check(Hmap, &Hc, &Hx, &Hy, HT, &Hj, &Hk , Hhighest , Hhighestnam);
 		// 注意这里是两个空格,不然比例不对
 		// 设置光标位置准备打印
 		// 同时隐藏光标
@@ -369,9 +361,13 @@ void hide_game()
 			}
 		}
 		// 打印最高分
-		COORD Hf = {30, 16};
+		COORD Hf = {30, 17};
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Hf);
 		printf("high: %d", Hhighest);
+		COORD Hm = {30, 16};
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Hm);
+		printf("highname: %s", Hhighestnam);
 	}
 }
