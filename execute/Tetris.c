@@ -23,7 +23,9 @@ int main()
     // 设置背景颜色
     while (1)
     {
-        system("color 84");
+        system("color 85");
+        EnglishHelp();
+        ChineseHelp();
         welcome();
         int choice = 0;
         scanf_s("%d", &choice);

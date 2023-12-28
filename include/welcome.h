@@ -8,4 +8,8 @@ void welcome();
 
 void moden();
 
+void ChineseHelp();
+
+void EnglishHelp();
+
 #endif
