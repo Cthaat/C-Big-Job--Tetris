@@ -370,5 +370,6 @@ void hide_game()
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 156);
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Hm);
 		printf("highname: %s", Hhighestnam);
+		printf("666");
 	}
 }
