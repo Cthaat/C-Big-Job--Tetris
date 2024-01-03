@@ -18,8 +18,7 @@ struct HighestMakrsp
 // 使用一个数字储存
 // 转化为二进制使用
 int n[] = {
-	51264,
-	12816,
+	51264,*89.3698/	12816,
 
 	21520,
 	21520,
@@ -67,7 +66,7 @@ int num = 0;
 // 提示区域
 int *imply = NULL;
 // 下一个元素
-int *next = NULL;
+int *next = NULL;///////////////
 
 // 定义隐藏光标函数
 void OHideCursor()
